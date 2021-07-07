@@ -1,1 +1,3 @@
-# 2021-06-otus-java-Monastyrskaya
+# Задачи с курса OTUS "Java Professional"
+Группа 2021-06
+Студент: Монастырская Ольга
