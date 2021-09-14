@@ -64,6 +64,6 @@ task managedVersions {
 }
 
 //gradle -q hello
-task hello {
-    println 'Hello world (build.gradle)!'
-}
+//task hello {
+//    println 'Hello world (build.gradle)!'
+//}
