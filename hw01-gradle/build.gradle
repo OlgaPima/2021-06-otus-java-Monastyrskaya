@@ -29,4 +29,10 @@ shadowJar {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.with {
+        encoding = 'WINDOWS-1251'
+    }
+}
+
 tasks.build.dependsOn tasks.shadowJar
