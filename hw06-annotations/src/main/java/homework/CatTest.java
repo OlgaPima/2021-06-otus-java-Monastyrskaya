@@ -105,7 +105,8 @@ public class CatTest {
      */
     @After
     public void tearDown() throws Exception {
-        cat.sleep();
+        if (cat != null)
+            cat.sleep();
     }
 
     //Далее - попытка имитировать методы AssertJ

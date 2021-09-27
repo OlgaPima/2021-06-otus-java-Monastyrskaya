@@ -4,18 +4,35 @@ import ru.otus.reflection.ReflectionHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Класс - запускалка тестов
  */
 public class TestRunner {
 
-    public static void run(String className) throws Exception {
-        ArrayList<Method> beforeMethods = new ArrayList<>();
-        ArrayList<Method> testMethods = new ArrayList<>();
-        ArrayList<Method> afterMethods = new ArrayList<>();
+    private static Class<?> classRef;
 
-        Class<?> classRef = Class.forName(className);
+    private static List<Method> beforeMethods;
+    private static List<Method> testMethods;
+    private static List<Method> afterMethods;
+
+    private static int testPassed = 0; //число пройденных тестов
+    private static int testFailed = 0; //число упавших тестов
+    private static int failedOnBefore = 0; //число тестов, упавших при инициализации
+
+    public static void run(String className) throws Exception {
+        classRef = Class.forName(className);
+
+        findTestMethods();
+        executeTests();
+        printResult();
+    }
+
+    private static void findTestMethods() {
+        beforeMethods = new ArrayList<>();
+        testMethods = new ArrayList<>();
+        afterMethods = new ArrayList<>();
 
         //Выцепляем public-методы, помеченные аннотациями @Before, @After, @Test. Допущение: все методы - без аргументов
         Method[] publicMethods = classRef.getDeclaredMethods();
@@ -31,12 +48,10 @@ public class TestRunner {
                 afterMethods.add(method);
             }
         }
+    }
 
+    private static void executeTests() {
         //Выполнение
-        int testPassed = 0; //число пройденных тестов
-        int testFailed = 0; //число упавших тестов
-        int failedOnBefore = 0; //число тестов, упавших при инициализации
-
         for (Method testMethod : testMethods) {
             Object classInstance = ReflectionHelper.instantiate(classRef);
             //Object classInstance = Class.forName(className).getConstructor().newInstance();
@@ -49,24 +64,17 @@ public class TestRunner {
                     testPassed++;
                 }
                 catch (RuntimeException e) {
-                    System.out.println(e.getMessage() + " " + ((InvocationTargetException)e.getCause()).getTargetException().getMessage());
+                    System.out.println(getErrorMessage(e));
                     System.out.println("test failed");
                     testFailed++;
                 }
-                finally {
-                    callMethods(classInstance, afterMethods);
-                }
             }
             else failedOnBefore++;
+            callMethods(classInstance, afterMethods);
         }
-        System.out.println("---------------------------------------");
-        System.out.println("Всего тестов: " + testMethods.size());
-        System.out.println("Количество пройденных тестов: " + testPassed);
-        System.out.println("Количество тестов, упавших при вызове: " + testFailed);
-        System.out.println("Количество не вызванных тестов (упавших на методах @Before): " + failedOnBefore);
     }
 
-    private static boolean callMethods(Object classInstance, ArrayList<Method> methodsList) {
+    private static boolean callMethods(Object classInstance, List<Method> methodsList) {
         try {
             for (Method method : methodsList) {
                 ReflectionHelper.callMethod(classInstance, method);
@@ -76,8 +84,23 @@ public class TestRunner {
         catch (RuntimeException e) {
             // Исключение в отдельном методе не должно прерывать весь процесс тестирования.
             // Выводим ошибку в консоль, возвращаем false и едем дальше:
-            System.out.println(e.getMessage() + " " + ((InvocationTargetException)e.getCause()).getTargetException().getMessage());
+            System.out.println(getErrorMessage(e));
             return false;
         }
+    }
+
+    private static void printResult() {
+        System.out.println("---------------------------------------");
+        System.out.println("Всего тестов: " + testMethods.size());
+        System.out.println("Количество пройденных тестов: " + testPassed);
+        System.out.println("Количество тестов, упавших при вызове: " + testFailed);
+        System.out.println("Количество не вызванных тестов (упавших на методах @Before): " + failedOnBefore);
+    }
+
+    private static String getErrorMessage(RuntimeException e) {
+        if (e.getCause() instanceof InvocationTargetException)
+            return e.getMessage() + " " + ((InvocationTargetException)e.getCause()).getTargetException().getMessage();
+        else
+            return e.getMessage();
     }
 }
