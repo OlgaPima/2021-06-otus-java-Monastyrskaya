@@ -3,7 +3,6 @@ package homework;
 import ru.otus.reflection.ReflectionHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * Класс - запускалка тестов
  */
 public class TestRunner {
-    
+
     public static void run(String className) throws Exception {
         Class<?> classRef = Class.forName(className);
 
