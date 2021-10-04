@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class AutoLogger {
 
@@ -22,7 +23,7 @@ public class AutoLogger {
     static class DemoInvocationHandler implements InvocationHandler
     {
         private final ICalculator calculator;
-        private final List<String> loggedMethods;
+        private final Set<String> loggedMethods;
 
         public DemoInvocationHandler(Calculator calc) {
             this.calculator = calc;

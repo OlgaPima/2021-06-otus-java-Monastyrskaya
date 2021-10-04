@@ -5,7 +5,8 @@ public class Program {
         ICalculator calc = AutoLogger.createCalculator();
         System.out.println("---------------------");
 
-//        calc.calculate("20/5").plus(5).plus(1, 3);
+        calc.calculate("20/5").plus(5).plus(1, 3); //Так не локируется полностью (проксирует только первый вызов из 3)
+        //Так - проксирует нормально все 3 метода
         calc.calculate("20/5");
         calc.plus(5);
         calc.plus(1, 3);

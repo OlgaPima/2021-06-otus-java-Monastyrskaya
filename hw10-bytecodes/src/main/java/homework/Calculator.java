@@ -9,6 +9,11 @@ public class Calculator implements ICalculator {
 
     private double result;
 
+    /*
+    Делаем у всех методов this в качестве возвращаемое значение, чтобы протестировать поведение прокси на Builder-подобных вызовах
+    (например: calc.calculate("50/10").plus(4).minus(6)
+     */
+
     @Log
     public Calculator calculate(String expression) {
         result = new ExpressionBuilder(expression).build().evaluate();

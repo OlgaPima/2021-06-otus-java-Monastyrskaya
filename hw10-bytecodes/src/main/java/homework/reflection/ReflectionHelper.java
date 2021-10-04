@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 public class ReflectionHelper {
@@ -19,9 +21,9 @@ public class ReflectionHelper {
      * @return Список сигнатур в строковом представлении (например, "interface homework.ICalculator plus(class java.lang.Integer, class java.lang.Integer)")
      * @throws Exception
      */
-    public static <T extends Annotation> List<String> findMethodsByAnnotation(Object classInstance, Class<T> annotation) //throws Exception
+    public static <T extends Annotation> Set<String> findMethodsByAnnotation(Object classInstance, Class<T> annotation) //throws Exception
     {
-        List<String> result = new ArrayList<>();
+        Set<String> result = new TreeSet<>();
         Method[] classMethods = classInstance.getClass().getDeclaredMethods(); //Class.forName(className).getDeclaredMethods();
         for (Method method : classMethods) {
             if (method.isBridge() && ReflectionHelper.isMethodAnnotatedBy(method, annotation)) {
