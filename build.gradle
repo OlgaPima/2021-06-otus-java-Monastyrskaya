@@ -36,6 +36,10 @@ allprojects {
             dependency("org.openjdk.jol:jol-core:${Versions.jol}")
             dependency("org.ow2.asm:asm-commons:${Versions.asm}")
             dependency("net.objecthunter:exp4j:${Versions.exp4j}")
+            dependency("org.glassfish:javax.json:${Versions.glassfishJson}")
+            dependency("com.google.protobuf:protobuf-java-util:${Versions.protobuf}")
+            dependency("org.testcontainers:junit-jupiter:${Versions.testcontainers}")
+            dependency("org.testcontainers:postgresql:${Versions.testcontainers}")
         }
     }
 

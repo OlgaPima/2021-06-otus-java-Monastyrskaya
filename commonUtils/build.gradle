@@ -10,9 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.ow2.asm:asm-commons'
-    implementation 'net.objecthunter:exp4j'
-    implementation project(':commonUtils')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
 test {
