@@ -1,12 +1,11 @@
 package homework;
 
-import homework.reflection.ReflectionHelper;
+import reflection.ReflectionHelper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class AutoLogger {
@@ -31,7 +30,7 @@ public class AutoLogger {
             // (делаем здесь, т.к. в invoke() вызывается метод-обертка, и аннотации исходного метода уже недоступны).
             // Методы представляются в виде строковых сигнатур, затем в методе invoke() сопоставляются с сигнатурой вызванного метода -
             // таким образом определяется, нужно ли вызывать автологирование или нет.
-            this.loggedMethods = ReflectionHelper.findMethodsByAnnotation(calc, homework.Log.class);
+            this.loggedMethods = ReflectionHelper.findMethodsAnnotatedBy(calc, homework.Log.class, true);
         }
 
         @Override
