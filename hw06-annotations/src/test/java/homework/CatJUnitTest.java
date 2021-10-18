@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Данный класс не относится к ДЗ, просто упражнения с JUnit
  */
 public class CatJUnitTest {
-/*
+
     @Test
     @DisplayName("Еда в нормальных условиях (не переедаем)")
     public void eat() throws Exception {
@@ -59,5 +59,5 @@ public class CatJUnitTest {
         Cat cat = new Cat(NatureColors.WHITE, "Murzik");
         assertThrows(Exception.class, () -> cat.voice());
     }
-*/
+
 }
